@@ -54,4 +54,8 @@ export class EventProcessor {
     }
     this.todos.set(userId, userTodos);
   }
+
+  cleanUpOldDeletedTasks() {
+    // periodically clean up deleted tasks past some retention period
+  }
 }

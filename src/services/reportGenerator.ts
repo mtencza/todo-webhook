@@ -13,7 +13,9 @@ export class ReportGenerator {
   }
 
   async generateReports(): Promise<Report[]> {
-    // for every user - generateReport(userId)
+    const userIds = this.eventProcessor.getAllUsers();
+    const reportPromises = userIds.map((userId) => this.generateReport(userId));
+    return Promise.all(reportPromises);
   }
 
   async generateReport(userId: string): Promise<Report> {

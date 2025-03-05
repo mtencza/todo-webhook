@@ -4,7 +4,10 @@
   "main": "server.ts",
   "scripts": {
     "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "format": "prettier --write 'src/**/*.{ts,tsx,json,md}'"
+    "format": "prettier --write 'src/**/*.{ts,tsx,json,md}'",
+    "start": "ts-node ./src/server.ts",
+    "docker:build": "docker build -t todo-webhook .",
+    "docker:run": "docker run -p 3000:3000 todo-webhook"
   },
   "author": "",
   "license": "ISC",

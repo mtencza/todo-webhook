@@ -68,6 +68,18 @@ export class EventProcessor {
     this.todos.set(userId, userTodos);
   }
 
+  getTodosForUser(userId: string): Todo[] {
+    return Array.from(this.todos.get(userId)?.values() || []);
+  }
+
+  getAllUsers(): string[] {
+    const users = new Array<string>();
+    this.todos.forEach((_, key: string) => {
+      users.push(key);
+    });
+    return users;
+  }
+
   private isTodoDeleted(userId: string, todoId: string): boolean {
     const userTodos = this.todos.get(userId);
     if (!userTodos) {

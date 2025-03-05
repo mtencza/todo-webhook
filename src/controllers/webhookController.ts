@@ -10,7 +10,7 @@ export function webhookController(eventProcessor: EventProcessor) {
         // if(payload invalid ) {res.status(400)}
         const payload: WebhookPayload = req.body;
 
-        eventProcessor.processWebhookEvent(payload);
+        eventProcessor.processWebHookEvent(payload);
         res.status(200).json({ status: 'success' });
         return;
       } catch (error) {

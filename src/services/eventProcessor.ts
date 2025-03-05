@@ -8,6 +8,19 @@ export class EventProcessor {
     const todoId = payload.metadata.id;
     const eventType = payload.event;
 
+    // if userId/todoId doesn't exist for update/delete
+    if (
+      (eventType === 'updated' || eventType === 'deleted') &&
+      !this.containsTodoId(userId, todoId)
+    ) {
+      throw new Error('Todo does not exist');
+    }
+
+    // can't delete an already deletd todo
+    if (this.isTodoDeleted(userId, todoId)) {
+      throw new Error('Todo does not exist');
+    }
+
     this.updateTodoState(payload);
   }
 
@@ -53,6 +66,28 @@ export class EventProcessor {
       }
     }
     this.todos.set(userId, userTodos);
+  }
+
+  private isTodoDeleted(userId: string, todoId: string): boolean {
+    const userTodos = this.todos.get(userId);
+    if (!userTodos) {
+      return false;
+    }
+    const todo = userTodos.get(todoId);
+    return todo.isDeleted;
+  }
+
+  private containsTodoId(userId: string, todoId: string): boolean {
+    const userTodos = this.todos.get(userId);
+    if (!userTodos) {
+      return false;
+    }
+    for (const id of userTodos.keys()) {
+      if (id === todoId) {
+        return true;
+      }
+    }
+    return false;
   }
 
   cleanUpOldDeletedTasks() {
